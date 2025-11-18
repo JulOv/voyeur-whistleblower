@@ -79,7 +79,7 @@ def check_url(product_url: str):
         msg = (
             f"✅ <b> Available at: {product_url}"
         )
-        send_tg(msg)
+        send_telegram_message(msg)
 
 
 def main():
