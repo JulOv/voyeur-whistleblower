@@ -7,8 +7,8 @@ try:
 except ImportError:
     pass
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 PRODUCT_URLS = [
     os.getenv("PRODUCT_URL_1"),
@@ -20,17 +20,22 @@ CHECK_IT = os.getenv("CHECK_IT", "").strip()
 
 
 def send_telegram_message(text: str):
-    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
-        print("⚠️T")
+    if not BOT_TOKEN or not CHAT_ID:
+        print("Telegram not configured")
         return
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     data = {
-        "chat_id": TELEGRAM_CHAT_ID,
+        "chat_id": CHAT_ID,
         "text": text,
         "parse_mode": "HTML",
     }
-    r = requests.post(url, data=data, timeout=10)
-    r.raise_for_status()
+    try:
+        r = requests.post(url, data=data, timeout=10)
+        r.raise_for_status()
+        print("Message sent")
+    except Exception as e:
+        print(f"❌error: {e}")
 
 
 def fetch_product(url: str) -> dict:
@@ -74,7 +79,7 @@ def check_url(product_url: str):
         msg = (
             f"✅ <b> Available at: {product_url}"
         )
-        send_telegram_message(msg)
+        send_tg(msg)
 
 
 def main():
