@@ -54,11 +54,9 @@ def check_url(product_url: str):
     print(f"[INFO] {is_avail}")
 
     if is_avail:
-        msg = (
-            f"✅ <b> Available at: {product_url}"
-        )
+        pretty_url = product_url.replace(".js", "")
+        msg = f"✅ Available at: {pretty_url}"
         send_tg(msg)
-
 
 def main():
     if not CHECK_IT:
