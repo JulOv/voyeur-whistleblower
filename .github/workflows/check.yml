@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       CHECK_IT:         ${{ secrets.CHECK_IT }}
       PRODUCT_URL_1:    ${{ secrets.PRODUCT_URL_1 }}
