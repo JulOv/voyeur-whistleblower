@@ -1,14 +1,12 @@
 import os
 import requests
+from test_telegram import send_tg
 
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
     pass
-
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 PRODUCT_URLS = [
     os.getenv("PRODUCT_URL_1"),
@@ -17,26 +15,6 @@ PRODUCT_URLS = [
 ]
 
 CHECK_IT = os.getenv("CHECK_IT", "").strip()
-
-
-def send_telegram_message(text: str):
-    if not BOT_TOKEN or not CHAT_ID:
-        print("Telegram not configured")
-        return
-
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    data = {
-        "chat_id": CHAT_ID,
-        "text": text,
-        "parse_mode": "HTML",
-    }
-    try:
-        r = requests.post(url, data=data, timeout=10)
-        r.raise_for_status()
-        print("Message sent")
-    except Exception as e:
-        print(f"❌error: {e}")
-
 
 def fetch_product(url: str) -> dict:
     resp = requests.get(
@@ -79,7 +57,7 @@ def check_url(product_url: str):
         msg = (
             f"✅ <b> Available at: {product_url}"
         )
-        send_telegram_message(msg)
+        send_tg(msg)
 
 
 def main():
